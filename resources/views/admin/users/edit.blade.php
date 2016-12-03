@@ -60,6 +60,7 @@
             {!! Form::close() !!}
 
 
+
             {!! Form::open(['method'=>'DELETE', 'action'=>['AdminUsersController@destroy', $user->id]]) !!}
 
                 <div class="form-group col-sm-6 col-md-2">
