@@ -8,6 +8,7 @@ use App\Photo;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class AdminUsersController extends Controller
 {
@@ -73,6 +74,7 @@ class AdminUsersController extends Controller
 
         User::create($input);
 
+        Session::flash('created_user', 'The user has been created');
 
         return redirect('/admin/users');
 
@@ -153,6 +155,8 @@ class AdminUsersController extends Controller
 
         $user->update($input);
 
+        Session::flash('updated_user', 'The user has been updated');
+
         return redirect('/admin/users');
 
 
@@ -171,5 +175,45 @@ class AdminUsersController extends Controller
     public function destroy($id)
     {
         //
+        //return "sick n destroy";
+
+        //User::findOrFail($id)->delete();
+
+        $user = User::findOrFail($id);
+
+        //deletes photo from /public/images/ directory
+        //the /image/ path is included($user->photo->file) through the Accessor
+
+
+        //My way to delete the photo from database
+        if($user->photo){
+            unlink(public_path() . $user->photo->file);
+            $user->photo()->delete($user->photo_id);
+        }
+
+
+
+        $user->delete();
+
+
+        Session::flash('deleted_user', 'The user has been deleted');
+
+
+        return redirect('/admin/users');
+
+
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -5,7 +5,19 @@
 
 @section('content')
 
-    <h1>Users</h1>
+
+    @if(Session::has('deleted_user'))
+        <div class="row"><p class="alert alert-danger col-lg-12 ">{{session('deleted_user')}}</p></div>
+    @elseif(Session::has('updated_user'))
+        <div class="row"><p class="alert alert-success col-lg-12 ">{{session('updated_user')}}</p></div>
+    @elseif(Session::has('created_user'))
+        <div class="row"><p class="alert alert-success col-lg-12 ">{{session('created_user')}}</p></div>
+    @endif
+
+
+    <div class="row">
+        <h1>Users</h1>
+    </div>
 
 
     <table class="table table-striped">
